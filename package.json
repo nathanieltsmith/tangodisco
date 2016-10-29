@@ -1,0 +1,40 @@
+{
+  "name": "tangodisco",
+  "version": "1.0.0",
+  "description": "A Node website for collaboratively editing a tango discography",
+  "main": "server.js",
+  "scripts": {
+    "test": "mocha",
+    "start": "babel-node server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nathanieltsmith/tangodisco.git"
+  },
+  "author": "Nathan Smith",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/nathanieltsmith/tangodisco/issues"
+  },
+  "homepage": "https://github.com/nathanieltsmith/tangodisco#readme",
+  "dependencies": {
+    "bcrypt-nodejs": "0.0.3",
+    "body-parser": "^1.15.2",
+    "connect-flash": "^0.1.1",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-session": "^1.14.1",
+    "immutable": "^3.8.1",
+    "immutablediff": "^0.4.3",
+    "immutablepatch": "^0.3.0",
+    "method-override": "^2.3.6",
+    "mongoose": "^4.6.5",
+    "morgan": "^1.7.0",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "react": "^15.3.2",
+    "react-dom": "^15.3.2",
+    "webpack-dev-middleware": "^1.8.4",
+    "webpack-hot-middleware": "^2.13.1"
+  }
+}
