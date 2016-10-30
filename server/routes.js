@@ -1,3 +1,5 @@
+import { getRecording, createRecording, editRecording, deleteRecording, queryRecordings } from './controllers/recording'
+
 module.exports = function (app, passport) {
   app.post('/signup', passport.authenticate('local-signup', {
     successRedirect: '/api/user', // redirect to the secure profile section
@@ -25,19 +27,17 @@ module.exports = function (app, passport) {
   })
 
   app.route('/api/recordings')
-    .get((req, res) => {
-      res.json({description: 'query the recordings'})
-    })
-    .post(isLoggedIn, (req, res) => {
-      res.json({description: 'create a recording'})
-    })
+    .get(queryRecordings)
+
+  app.route('/api/recording')
+    .post(isLoggedIn, createRecording)
+
+  app.route('/api/recording/:id')
+    .get(getRecording)
+    .put(isLoggedIn, editRecording)
+    .delete(isLoggedIn, deleteRecording)
 }
 
 function isLoggedIn (req, res, next) {
-  // if user is authenticated in the session, carry on 
-  if (req.isAuthenticated())
-    return next()
-
-  // if they aren't redirect them to the home page
-  res.type('json').status(401).send({error: 'User is not logged in.'})
+  req.isAuthenticated() ? next() : res.type('json').status(401).send({error: 'User is not logged in.'})
 }
