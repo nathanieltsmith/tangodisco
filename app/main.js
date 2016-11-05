@@ -1,10 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
+import RecordingEditor from './components/RecordingEditor'
+import store from './store/store'
+import { Provider } from 'react-redux'
 
-class HelloWorld extends React.Component {
-  render() {
-    return <h1>Hello World!</h1>
-  }
-}
-
-ReactDOM.render(<HelloWorld/>, document.getElementById('app'))
+ReactDOM.render((<Provider store={store}>
+					<RecordingEditor/>
+				 </Provider>),
+  document.getElementById('app'))

@@ -1,18 +1,40 @@
 import mongoose from 'mongoose'
 
 const recordingSchema = mongoose.Schema({
+		queryData: queryDataSchema,
+		data: recordingDataSchema,
+        trackEdits: {type: [recordingEditSchema],default: []}
+        created: { type: Date, default: Date.now }
+})
+
+const recordingDataSchema = new mongoose.Schema({
 		song: {type: String, required: true},
 		orchestraLeader: {type: String, required: true},
 		orchestra: {type: String, required: true},
 		singers: [String],
 		genre: {type: String, default: 'Tango'},
 		youTubeUrl: String,
-		recorded: { type: Date, default: Date.now },
-        trackEdits: {type: [recordingEditSchema],default: []}
+		recorded: Date
+},{
+	timestamps: true
 })
-const recordingEditSchema = mongoose.Schema({
-	user: { type: String, required: true}
-	date: { type: Date, default: Date.now }
+
+const queryDataSchema = new mongoose.Schema({
+	song: {type: String, required: true},
+	orchestraLeader: {type: String, required: true},
+	orchestra: {type: String, required: true},
+	singers: {type: String, default:'Instrumental'},
+	genre: String,
+	recorded: Date,
+	queryText: String
+})
+
+const recordingEditSchema = new mongoose.Schema({
+	user: { type: String, required: true},
+	kind: { type: String, default: 'Edit'}
+	edit: {}, 
+}, {
+	timestamps: true
 })
 
 
