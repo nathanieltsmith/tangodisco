@@ -1,3 +1,4 @@
+var path = require('path')
 var express = require('express')
 var app = express()
 var port = process.env.PORT || 3000
@@ -49,6 +50,10 @@ app.use(flash())
 // // routes ======================================================================
 require('./server/routes.js')(app, passport) // load our routes and pass in our app and fully configured passport
 app.use(express.static('public'))
+
+app.get('*', function (req, res) {
+  res.sendFile(path.join(__dirname, 'public/index.html'))
+})
 
 // launch ======================================================================
 app.listen(port)
