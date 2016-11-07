@@ -34,7 +34,7 @@ module.exports = function (app, passport) {
 
   app.route('/api/recording/:id')
     .get(getRecording)
-    .put(isLoggedIn, editRecording)
+    .put(editRecording)
     .delete(isLoggedIn, deleteRecording)
 }
 

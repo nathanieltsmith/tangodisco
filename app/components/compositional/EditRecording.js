@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { updateDraftTrack } from '../../store/actions'
+import { updateDraftTrack, setSourceTrack } from '../../store/actions'
 
 function mapStateToProps (state) {
   return {
@@ -10,7 +10,8 @@ function mapStateToProps (state) {
 
 function mapDispatchToProps (dispatch) {
   return {
-    update: (field, value, index) => dispatch(updateDraftTrack(field, value, index))
+    update: (field, value, index) => dispatch(updateDraftTrack(field, value, index)),
+    setSourceTrack: track => dispatch(setSourceTrack(track))
   }
 }
 

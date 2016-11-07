@@ -5,3 +5,9 @@ export function updateDraftTrack (field, value, index) {
     value,
   index}
 }
+
+export function setSourceTrack (track) {
+  return {
+    type: 'setSourceTrack',
+  track}
+}

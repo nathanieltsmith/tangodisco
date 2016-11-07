@@ -27,7 +27,10 @@ const queryDataSchema = new mongoose.Schema({
 })
 
 const recordingEditSchema = new mongoose.Schema({
-  user: { type: String}
+  user: String,
+  op: String,
+  path: String,
+  value: Object
 }, {
   timestamps: true
 })
@@ -41,9 +44,11 @@ const recordingSchema = mongoose.Schema({
 
 recordingSchema.methods.addEdits = function (user, newEdits) {
   const edits = fromJS(this.trackEdits).push(...newEdits.map(edit => edit.set('user', user)))
+  console.log('edits', edits.toJS())
   const recording = patch(Map({}), edits)
+  console.log('recording', recording.toJS())
   const query = deepRemoveAccents(recording)
-  const summarizedQuery = query.set('summary', concatAllStrings(query))
+  const summarizedQuery = query.set('queryText', concatAllStrings(query))
   this.trackEdits = edits.toJS()
   this.data = recording.toJS()
   this.queryData = summarizedQuery.toJS()

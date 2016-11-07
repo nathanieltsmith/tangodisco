@@ -31,7 +31,7 @@ ReactDOM.render((<Provider store={store}>
     					<Route path="/" component={App}>
     						<IndexRoute component={PlaceHolder} />
       						<Route path="add" component={RecordingEditor} />
-      						<Route path="edit/:recordingId" component={PlaceHolder} />
+      						<Route path="edit/:recordingId" component={RecordingEditor} />
         					<Route path="search/:query" component={PlaceHolder} />
         					<Route path="user/:userId" component={PlaceHolder} />
         					<Route path='log/:startDate/:endDate' component={PlaceHolder} />

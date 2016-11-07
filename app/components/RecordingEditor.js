@@ -1,14 +1,36 @@
 import React from 'react'
+import { Map, fromJS } from 'immutable'
 import immutablediff from 'immutablediff'
 import EditRecording from './compositional/EditRecording'
 import { jsonRequest } from '../requests'
+import _ from 'lodash'
 
 class RecordingEditor extends React.Component {
 
+  componentWillMount() {
+    const id = _.get(this, 'props.params.recordingId')
+    this.props.setSourceTrack(Map({}))
+    if (id) {
+      jsonRequest('GET', `/api/recording/${id}`)
+        .then(resp => {
+          console.log('RESP', resp)
+          const track = fromJS(resp.data)
+          console.log('TRACK', track.toJS())
+          const trimmedTrack = track
+            .delete('_id')
+            .delete('updatedAt')
+            .delete('createdAt')
+          this.props.setSourceTrack(trimmedTrack)
+        })
+    }
+  }
+
   submitChanges() {
+    const id = _.get(this, 'props.params.recordingId')
     const diff = immutablediff(this.props.source, this.props.track)
-    diff.map(op => console.log(op.toJS()))
-    jsonRequest('POST', '/api/recording', diff.toJS())
+    const url = '/api/recording' + (id ? '/' + id : '')
+    const method = id ? 'PUT' : 'POST'
+    jsonRequest(method, url, diff.toJS())
       .then(console.log)
   }
 
@@ -40,9 +62,8 @@ class StringArrayInput extends React.Component {
 
   render() {
     const {field, track, update} = this.props
-    console.log('getfield', track.get(field).toJS())
     return (<div>
-        {track.get(field).map((str, i) => (<div>
+        {(track.get(field) || []).map((str, i) => (<div>
                           <label>{field}</label>
                           <input value={track.getIn([field, i])} onChange={e => update(field, e.target.value, i)}/>
                           <span onClick={() => update(field, undefined, i)}>[x]</span>
@@ -50,7 +71,7 @@ class StringArrayInput extends React.Component {
                         </div>)
     )
     }
-    <div onClick={() => update(field, '', track.get(field).size)}> add {field}</div>
+    <div onClick={() => update(field, '', track.get(field) ? track.get(field).size : 0)}> add {field}</div>
       </div>)
 
   }
