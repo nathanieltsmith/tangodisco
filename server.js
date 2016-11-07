@@ -9,6 +9,7 @@ var webpack = require('webpack')
 var webpackConfig = require('./webpack.config.js')
 var webpackMiddleware = require('webpack-dev-middleware')
 var webpackHotMiddleware = require('webpack-hot-middleware')
+var Immutable = require('immutable')
 var compiler = webpack(webpackConfig)
 var wpMiddleware = webpackMiddleware(compiler,
   {publicPath: webpackConfig.output.publicPath,
@@ -40,6 +41,10 @@ require('./config/passport')(passport) // pass passport for configuration
 app.use(morgan('dev')) // log every request to the console
 app.use(cookieParser()); // read cookies (needed for auth)
 app.use(bodyParser()) // get information from html forms
+app.use((req, res, next) => {
+  req.body = Immutable.fromJS(req.body)
+  next()
+})
 
 // required for passport
 app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })) // session secret

@@ -1,9 +1,19 @@
+import Recording from '../models/recording'
+
 export function getRecording (req, res) {
   res.json({description: 'get a recording!'})
 }
 
 export function createRecording (req, res) {
-  res.json({description: 'create a recording'})
+  new Recording().addEdits(req.user, req.body)
+    .then((resp) => {
+      console.log('Got Response', resp)
+      res.json(resp)
+    })
+    .catch((err) => {
+      console.log('got error', err)
+      res.json(err)
+    })
 }
 
 export function editRecording (req, res) {

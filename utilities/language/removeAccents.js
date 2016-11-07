@@ -1,4 +1,6 @@
-function removeAccents (str) {
+import { deepStringModify } from '../string'
+
+export function removeAccents (str) {
   return str.replace(/[áéíñóúüÁÉÍÑÓÚÜ]/g, m => {
     return {
       á: 'a',
@@ -19,4 +21,6 @@ function removeAccents (str) {
   })
 }
 
-module.exports = removeAccents
+export function deepRemoveAccents (str) {
+  return deepStringModify(removeAccents, str)
+}

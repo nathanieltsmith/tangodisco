@@ -3,9 +3,7 @@ import { createStore } from 'redux'
 import reducer from './reducer'
 
 var startingState = Map({
-  currentTrack: Map({
-    singers: List(['Instrumental'])
-  }),
+  currentTrack: Map({}),
   modifiedTrack: Map({
     singers: List(['Instrumental'])
   })
