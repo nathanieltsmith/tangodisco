@@ -6,10 +6,12 @@ import { concatAllStrings } from '../../utilities/string'
 
 const recordingDataSchema = new mongoose.Schema({
   song: {type: String, required: true},
-  orchestraLeader: {type: String},
   orchestra: {type: String, required: true},
   singers: [String],
+  lyricists: [String],
+  composers: [String],
   genre: {type: String, default: 'Tango'},
+  duration: String,
   youTubeUrl: String,
   recorded: Date
 }, {
@@ -18,12 +20,11 @@ const recordingDataSchema = new mongoose.Schema({
 
 const queryDataSchema = new mongoose.Schema({
   song: {type: String, required: true},
-  orchestraLeader: {type: String},
   orchestra: {type: String, required: true},
-  singers: {type: String, default: 'Instrumental'},
+  singers: [String],
+  lyricists: [String],
+  composers: [String],
   genre: String,
-  recorded: Date,
-  queryText: String
 })
 
 const recordingEditSchema = new mongoose.Schema({
@@ -36,24 +37,24 @@ const recordingEditSchema = new mongoose.Schema({
 })
 
 const recordingSchema = mongoose.Schema({
-  queryData: queryDataSchema,
   data: recordingDataSchema,
   trackEdits: {type: [recordingEditSchema],default: []},
-  created: { type: Date }
+  queryData: queryDataSchema
+}, {
+  timestamps: true
 })
 
 recordingSchema.methods.addEdits = function (user, newEdits) {
   const edits = fromJS(this.trackEdits).push(...newEdits.map(edit => edit.set('user', user)))
-  console.log('edits', edits.toJS())
   const recording = patch(Map({}), edits)
-  console.log('recording', recording.toJS())
   const query = deepRemoveAccents(recording)
-  const summarizedQuery = query.set('queryText', concatAllStrings(query))
   this.trackEdits = edits.toJS()
   this.data = recording.toJS()
-  this.queryData = summarizedQuery.toJS()
+  this.queryData = query.toJS()
   return this.save()
 }
+
+recordingSchema.index({'$**': 'text'})
 
 // create the model for users and expose it to our app
 module.exports = mongoose.model('recording', recordingSchema)

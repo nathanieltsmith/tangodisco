@@ -11,3 +11,15 @@ export function setSourceTrack (track) {
     type: 'setSourceTrack',
   track}
 }
+
+export function setSearchResults (results) {
+  return {
+    type: 'setSearchResults',
+  results}
+}
+
+export function setQuery (query) {
+  return {
+    type: 'setQuery',
+  query}
+}

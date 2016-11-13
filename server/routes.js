@@ -27,7 +27,7 @@ module.exports = function (app, passport) {
   })
 
   app.route('/api/recordings')
-    .get(queryRecordings)
+    .post(queryRecordings)
 
   app.route('/api/recording')
     .post(createRecording)

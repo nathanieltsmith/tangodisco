@@ -6,13 +6,16 @@ export default function reducer (state, action) {
       return updateDraftTrack(state, action.field, action.value, action.index)
     case 'setSourceTrack':
       return setSourceTrack(state, action.track)
+    case 'setSearchResults':
+      return state.set('searchResults', action.results)
+    case 'setQuery':
+      return state.set('query', action.query)
     default:
       return state
   }
 }
 
 function updateDraftTrack (state, field, value, index) {
-  console.log(state, field, value, index)
   if (index === undefined) {
     return state.setIn(['modifiedTrack', field], value)
   } else if (value === undefined) {

@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import RecordingEditor from './components/RecordingEditor'
+import SearchPage from './components/SearchPage'
 import store from './store/store'
 import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
@@ -29,10 +30,10 @@ class PlaceHolder extends React.Component {
 ReactDOM.render((<Provider store={store}>
 					<Router history={browserHistory}>
     					<Route path="/" component={App}>
-    						<IndexRoute component={PlaceHolder} />
+    						<IndexRoute component={SearchPage} />
       						<Route path="add" component={RecordingEditor} />
       						<Route path="edit/:recordingId" component={RecordingEditor} />
-        					<Route path="search/:query" component={PlaceHolder} />
+        					<Route path="search/:query" component={SearchPage} />
         					<Route path="user/:userId" component={PlaceHolder} />
         					<Route path='log/:startDate/:endDate' component={PlaceHolder} />
      				 	</Route>

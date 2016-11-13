@@ -1,0 +1,20 @@
+body {
+	background-color: papayawhip;
+	color: palevioletred;
+	padding: 1em;
+}
+
+td {
+	padding:.25em;
+}
+
+input {
+  font-size: 1.25em;
+  padding: 0.5em;
+  margin: 0.5em;
+  color: palevioletred;
+  background: papayawhip;
+  border: 2px solid palevioletred;
+  border-radius: 3px;
+  width: 80%;
+}

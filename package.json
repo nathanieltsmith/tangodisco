@@ -4,7 +4,7 @@
   "description": "A Node website for collaboratively editing a tango discography",
   "main": "server.js",
   "scripts": {
-    "test": "mocha",
+    "test": "mocha && ava",
     "start": "supervisor -- -r 'babel-register' server.js"
   },
   "repository": {
@@ -24,6 +24,7 @@
     "cookie-parser": "^1.4.3",
     "express": "^4.14.0",
     "express-session": "^1.14.1",
+    "googleapis": "^14.2.0",
     "immutable": "^3.8.1",
     "immutablediff": "^0.4.3",
     "immutablepatch": "^0.3.0",
@@ -40,5 +41,8 @@
     "webpack-dev-middleware": "^1.8.4",
     "webpack-hot-middleware": "^2.13.1",
     "whatwg-fetch": "^1.0.0"
+  },
+  "devDependencies": {
+    "ava": "^0.16.0"
   }
 }
