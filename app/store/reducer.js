@@ -1,4 +1,5 @@
-import { List, Map } from 'immutable'
+import { List, Map, fromJS } from 'immutable'
+import _ from 'lodash'
 
 export default function reducer (state, action) {
   switch (action.type) {
@@ -10,9 +11,34 @@ export default function reducer (state, action) {
       return state.set('searchResults', action.results)
     case 'setQuery':
       return state.set('query', action.query)
+    case 'playVideo':
+      return state.set('nowPlaying', fromJS(action.song))
+    case 'sortSearch':
+      return sortTracks(state, action.sortBy)
     default:
       return state
   }
+}
+
+function immutableSort (list, sortFn) {
+  return new List((list.toJS ? list.toJS() : list).sort(sortFn))
+}
+
+function keySort (key, order) {
+  var flip = order === 'DESC' ? -1 : 1
+  return (a, b) => {
+    var x = _.get(a, key)
+    var y = _.get(b, key)
+    return flip * ((x < y) ? -1 : ((x > y) ? 1 : 0))
+  }
+}
+
+function sortTracks (state, sortBy) {
+  const sortDir = state.get('sortDir') === 'ASC' && state.get('sortBy') === sortBy ? 'DESC' : 'ASC'
+  return state
+    .set('sortBy', sortBy)
+    .set('sortDir', sortDir)
+    .set('searchResults', immutableSort(state.get('searchResults'), keySort(sortBy, sortDir)))
 }
 
 function updateDraftTrack (state, field, value, index) {

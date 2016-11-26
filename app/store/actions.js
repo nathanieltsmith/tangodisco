@@ -23,3 +23,15 @@ export function setQuery (query) {
     type: 'setQuery',
   query}
 }
+
+export function playVideo (song) {
+  return {
+    type: 'playVideo',
+  song}
+}
+
+export function sortSearch (sortBy) {
+  return {
+    type: 'sortSearch',
+  sortBy}
+}

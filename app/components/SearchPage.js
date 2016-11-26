@@ -28,20 +28,31 @@ class SearchPage extends React.Component {
   }
 
   render() {
+    const { query, sortBy, setQuery, playVideo, sortResults } = this.props
     return (<div>
-					<input value={this.props.query} onChange={(e) => this.props.setQuery(e.target.value)}/>
-					<div className="btn btn-primary" onClick={() => browserHistory.push(`/search/${this.props.query}`)}>Search</div>
-					<table>
-					{this.props.searchResults.map(result => (<tr>
-							<td>{result.data.song}</td>
-							<td>{result.data.orchestra}</td>
-							<td>{result.data.genre}</td>
-							<td>{new Date(result.data.recorded).toISOString().slice(0, 10)}</td>
-							<td>{result.data.singers.join(', ')}</td>
-							<td><Link to={`/edit/${result._id}`}>Edit</Link></td>
-							</tr>))}
-					</table>
-				</div>)
+          <input value={query} onChange={(e) => setQuery(e.target.value)}/>
+          <div className="btn btn-primary" onClick={() => browserHistory.push(`/search/${this.props.query}`)}>Search</div>
+          <table>
+          <tr>
+            <th></th>
+            <th onClick={() => sortResults('data.song')}>Song</th>
+            <th onClick={() => sortResults('data.orchestra')}>Orchestra</th>
+            <th onClick={() => sortResults('data.genre')}>Genre</th>
+            <th onClick={() => sortResults('data.recorded')}>Recorded</th>
+            <th>Singer(s)</th>
+            <th></th>
+          </tr>
+          {this.props.searchResults.map(result => (<tr>
+              <td>{result.data.youTubeUrl ? <button className={'btn btn-primary'} onClick={() => playVideo(result.data)}>Play</button> : ''}</td>
+              <td>{result.data.song}</td>
+              <td>{result.data.orchestra}</td>
+              <td>{result.data.genre}</td>
+              <td>{new Date(result.data.recorded).toISOString().slice(0, 10)}</td>
+              <td>{result.data.singers.join(', ')}</td>
+              <td><Link to={`/edit/${result._id}`}>Edit</Link></td>
+              </tr>))}
+          </table>
+        </div>)
 
   }
 

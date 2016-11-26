@@ -5,11 +5,17 @@ import SearchPage from './components/SearchPage'
 import store from './store/store'
 import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
+import VideoPlayer from './components/VideoPlayer'
 
 class App extends React.Component {
   render() {
+    const nameStyle = {
+      position: 'absolute',
+      top: '80px',
+      left: '250px'
+    }
     return (<div>
-					<h1> Tango Discography </h1>
+					<h1><VideoPlayer/><span style={nameStyle}>Tango Discography</span> </h1> 
 					{this.props.children}
 				</div>)
   }

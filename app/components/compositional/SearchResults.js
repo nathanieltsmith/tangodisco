@@ -1,5 +1,5 @@
 import { connect } from 'react-redux'
-import { setSearchResults, setQuery } from '../../store/actions'
+import { setSearchResults, setQuery, playVideo, sortSearch } from '../../store/actions'
 
 function mapStateToProps (state) {
   return {
@@ -11,7 +11,9 @@ function mapStateToProps (state) {
 function mapDispatchToProps (dispatch) {
   return {
     setSearchResults: (results) => dispatch(setSearchResults(results)),
-    setQuery: query => dispatch(setQuery(query))
+    setQuery: query => dispatch(setQuery(query)),
+    playVideo: song => dispatch(playVideo(song)),
+    sortResults: searchBy => dispatch(sortSearch(searchBy))
   }
 }
 

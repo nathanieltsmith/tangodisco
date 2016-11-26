@@ -8,7 +8,7 @@ export function jsonRequest (method, route, body) {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(body)
+    body: JSON.stringify(body.toJS ? body.toJS() : body)
   })
     .then(function (response) {
       return response.json()
