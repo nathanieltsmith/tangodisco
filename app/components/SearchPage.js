@@ -31,7 +31,7 @@ class SearchPage extends React.Component {
     const { query, sortBy, setQuery, playVideo, sortResults } = this.props
     return (<div>
           <input value={query} onChange={(e) => setQuery(e.target.value)}/>
-          <div className="btn btn-primary" onClick={() => browserHistory.push(`/search/${this.props.query}`)}>Search</div>
+          <button className='btn btn-primary' onClick={() => browserHistory.push(`/search/${this.props.query}`)}>Search</button>
           <table>
           <tr>
             <th></th>
@@ -43,7 +43,7 @@ class SearchPage extends React.Component {
             <th></th>
           </tr>
           {this.props.searchResults.map(result => (<tr>
-              <td>{result.data.youTubeUrl ? <button className={'btn btn-primary'} onClick={() => playVideo(result.data)}>Play</button> : ''}</td>
+              <td>{result.data.youTubeUrl ? <h4><span className={'glyphicon glyphicon-play'} aria-hidden="true" onClick={() => playVideo(result.data)}></span></h4> : ''}</td>
               <td>{result.data.song}</td>
               <td>{result.data.orchestra}</td>
               <td>{result.data.genre}</td>
