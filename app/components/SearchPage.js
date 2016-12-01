@@ -49,7 +49,7 @@ class SearchPage extends React.Component {
               <td>{result.data.genre}</td>
               <td>{new Date(result.data.recorded).toISOString().slice(0, 10)}</td>
               <td>{result.data.singers.join(', ')}</td>
-              <td><Link to={`/edit/${result._id}`}>Edit</Link></td>
+              <td><Link to={`/edit/${result._id}`}><span className="glyphicon glyphicon-pencil" aria-hidden="true"></span></Link></td>
               </tr>))}
           </table>
         </div>)

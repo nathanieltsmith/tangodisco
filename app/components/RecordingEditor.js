@@ -8,23 +8,29 @@ import _ from 'lodash'
 class RecordingEditor extends React.Component {
 
   componentWillMount() {
-    const id = _.get(this, 'props.params.recordingId')
-    this.props.setSourceTrack(Map({}))
-    if (id) {
+    this.updateTracks(this.props, undefined)
+  }
+  componentWillReceiveProps( nextProps) {
+    this.updateTracks(nextProps, _.get(this, 'props.params.recordingId'))
+  }
+
+  updateTracks( nextProps, oldId) {
+    const id = _.get(nextProps, 'params.recordingId')
+    console.log('id:', id, oldId)
+    if (id && id !== oldId) {
       jsonRequest('GET', `/api/recording/${id}`)
         .then(resp => {
-          console.log('RESP', resp)
           const track = fromJS(resp.data)
-          console.log('TRACK', track.toJS())
           const trimmedTrack = track
             .delete('_id')
             .delete('updatedAt')
             .delete('createdAt')
           this.props.setSourceTrack(trimmedTrack)
         })
+    } else if (oldId && !id) {
+      this.props.setSourceTrack(Map({}))
     }
   }
-
   submitChanges() {
     const id = _.get(this, 'props.params.recordingId')
     const diff = immutablediff(this.props.source, this.props.track)
@@ -49,6 +55,7 @@ class RecordingEditor extends React.Component {
 }
 
 class StringInput extends React.Component {
+
   render() {
     const {field, track, update} = this.props
     return (<div>

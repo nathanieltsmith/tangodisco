@@ -1,4 +1,5 @@
 import 'whatwg-fetch'
+import _ from 'lodash'
 
 export function jsonRequest (method, route, body) {
   return fetch(route, {
@@ -8,7 +9,7 @@ export function jsonRequest (method, route, body) {
       'Accept': 'application/json',
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify(body.toJS ? body.toJS() : body)
+    body: JSON.stringify(_.get(body, 'toJS') ? body.toJS() : body)
   })
     .then(function (response) {
       return response.json()
