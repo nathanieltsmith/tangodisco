@@ -27,7 +27,7 @@ class RecordingEditor extends React.Component {
             .delete('createdAt')
           this.props.setSourceTrack(trimmedTrack)
         })
-    } else if (oldId && !id) {
+    } else if (!id && nextProps.track.size !== 0) {
       this.props.setSourceTrack(Map({}))
     }
   }
@@ -60,7 +60,7 @@ class StringInput extends React.Component {
     const {field, track, update} = this.props
     return (<div>
       <label>{field}</label>
-      <input value={track.get(field)} onChange={e => update(field, e.target.value)} />
+      <input value={track.get(field) || ''} onChange={e => update(field, e.target.value)} />
     </div>)
   }
 }
