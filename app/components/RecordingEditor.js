@@ -8,34 +8,30 @@ import _ from 'lodash'
 class RecordingEditor extends React.Component {
 
   componentWillMount() {
-    this.updateTracks(this.props, undefined)
-  }
-  componentWillReceiveProps( nextProps) {
-    this.updateTracks(nextProps, _.get(this, 'props.params.recordingId'))
+    this.updateTracks()
   }
 
-  updateTracks( nextProps, oldId) {
-    const id = _.get(nextProps, 'params.recordingId')
-    console.log('id:', id, oldId)
-    if (id && id !== oldId) {
+  updateTracks() {
+    const id = _.get(this.props, 'params.recordingId')
+    if (id) {
       jsonRequest('GET', `/api/recording/${id}`)
         .then(resp => {
-          const track = fromJS(resp.data)
-          const trimmedTrack = track
+          const trimmedTrack = resp.get('data')
             .delete('_id')
             .delete('updatedAt')
             .delete('createdAt')
           this.props.setSourceTrack(trimmedTrack)
         })
-    } else if (!id && nextProps.track.size !== 0) {
-      this.props.setSourceTrack(Map({}))
     }
   }
   submitChanges() {
+    const {source, track} = this.props
     const id = _.get(this, 'props.params.recordingId')
-    const diff = immutablediff(this.props.source, this.props.track)
+    console.log('Into the thing', source.toJS(), track.toJS())
+    const diff = immutablediff(source, track)
     const url = '/api/recording' + (id ? '/' + id : '')
     const method = id ? 'PUT' : 'POST'
+    console.log('What the diff', diff.toJS())
     jsonRequest(method, url, diff.toJS())
       .then(console.log)
   }
@@ -55,9 +51,14 @@ class RecordingEditor extends React.Component {
 }
 
 class StringInput extends React.Component {
+  shouldComponentUpdate( nextProps, nextState) {
+    console.log('SHOULD I?', nextProps.track !== this.props.track || nextProps.update !== this.update)
+    return (nextProps.track !== this.props.track || nextProps.update !== this.update)
+  }
 
   render() {
     const {field, track, update} = this.props
+    console.log('rendering', field, track.get(field))
     return (<div>
       <label>{field}</label>
       <input value={track.get(field) || ''} onChange={e => update(field, e.target.value)} />

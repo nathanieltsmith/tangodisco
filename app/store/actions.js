@@ -35,3 +35,16 @@ export function sortSearch (sortBy) {
     type: 'sortSearch',
   sortBy}
 }
+
+export function logIn (user) {
+  return {
+    type: 'logIn',
+    user: user
+  }
+}
+
+export function logOut () {
+  return {
+    type: 'logOut'
+  }
+}

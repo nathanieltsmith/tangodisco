@@ -1,4 +1,5 @@
 import { getRecording, createRecording, editRecording, deleteRecording, queryRecordings } from './controllers/recording'
+var Immutable = require('immutable')
 
 module.exports = function (app, passport) {
   app.post('/signup', passport.authenticate('local-signup', {
@@ -16,6 +17,11 @@ module.exports = function (app, passport) {
   app.get('/logout', (req, res) => {
     req.logout()
     res.redirect('/api/user')
+  })
+
+  app.use((req, res, next) => {
+    req.body = Immutable.fromJS(req.body)
+    next()
   })
 
   app.get('/api/user', (req, res) => {

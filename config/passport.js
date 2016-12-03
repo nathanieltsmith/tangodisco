@@ -12,7 +12,6 @@ module.exports = function (passport) {
     })
   })
 
-
   passport.use('local-login', new LocalStrategy({
     passReqToCallback: true
   },
@@ -31,20 +30,21 @@ module.exports = function (passport) {
     }))
 
   passport.use('local-signup', new LocalStrategy({
-    // by default, local strategy uses username and password, we will override with username
-    usernameField: 'username',
-    passwordField: 'password',
     passReqToCallback: true // allows us to pass back the entire request to the callback
   },
 
     function (req, username, password, done) {
+      console.log('signing up', username, password)
       process.nextTick(function () {
-        User.findOne({ 'username': username }, function (err, user) {
-          if (err)
+        console.log('checking for user', User)
+        User.findOne({'username': username }, function (err, user) {
+          if (err) {
             return done(err)
+          }
           if (user) {
             return done(null, false, req.flash('signupMessage', 'That username is already taken.'))
           } else {
+            console.log('Creating new User')
             const newUser = new User()
             newUser.username = username
             newUser.password = newUser.generateHash(password)

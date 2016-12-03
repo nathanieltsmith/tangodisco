@@ -2,6 +2,8 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import RecordingEditor from './components/RecordingEditor'
 import SearchPage from './components/SearchPage'
+import SignUp from './components/SignUp'
+import LogOut from './components/LogOut'
 import store from './store/store'
 import { Provider } from 'react-redux'
 import { Router, Route, IndexRoute, browserHistory } from 'react-router'
@@ -27,6 +29,8 @@ ReactDOM.render((<Provider store={store}>
                   <Route path="edit/:recordingId" component={RecordingEditor} />
                   <Route path="search/:query" component={SearchPage} />
                   <Route path="user/:userId" component={PlaceHolder} />
+                  <Route path="signup" component={SignUp} />
+                  <Route path="logout" component={LogOut} />
                   <Route path='log/:startDate/:endDate' component={PlaceHolder} />
               </Route>
                 <Route path="*" component={NoMatch}/>

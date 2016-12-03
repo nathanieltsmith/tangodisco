@@ -9,7 +9,6 @@ var webpack = require('webpack')
 var webpackConfig = require('./webpack.config.js')
 var webpackMiddleware = require('webpack-dev-middleware')
 var webpackHotMiddleware = require('webpack-hot-middleware')
-var Immutable = require('immutable')
 var compiler = webpack(webpackConfig)
 var wpMiddleware = webpackMiddleware(compiler,
   {publicPath: webpackConfig.output.publicPath,
@@ -29,7 +28,14 @@ var bodyParser = require('body-parser')
 var session = require('express-session')
 
 var configDB = require('./config/database.js')
-var configPassport = require('./config/passport.js')
+
+app.use(cookieParser()); // read cookies (needed for auth)
+const jsonParser = bodyParser.json()
+app.use(jsonParser)
+app.use(bodyParser.urlencoded({ extended: true }))
+app.use(morgan('dev')) // log every request to the console
+
+var configPassport = require('./config/passport.js', jsonParser)
 configPassport(passport)
 
 // configuration ===============================================================
@@ -38,13 +44,7 @@ mongoose.connect(configDB.url) // connect to our database
 require('./config/passport')(passport) // pass passport for configuration
 
 // set up our express application
-app.use(morgan('dev')) // log every request to the console
-app.use(cookieParser()); // read cookies (needed for auth)
-app.use(bodyParser()) // get information from html forms
-app.use((req, res, next) => {
-  req.body = Immutable.fromJS(req.body)
-  next()
-})
+// get information from html forms
 
 // required for passport
 app.use(session({ secret: 'ilovescotchscotchyscotchscotch' })) // session secret

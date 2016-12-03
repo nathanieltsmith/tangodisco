@@ -8,6 +8,7 @@ export default function reducer (state, action) {
     case 'setSourceTrack':
       return setSourceTrack(state, action.track)
     case 'setSearchResults':
+      console.log('Search Results', action.results)
       return state.set('searchResults', action.results)
     case 'setQuery':
       return state.set('query', action.query)
@@ -15,13 +16,17 @@ export default function reducer (state, action) {
       return state.set('nowPlaying', fromJS(action.song))
     case 'sortSearch':
       return sortTracks(state, action.sortBy)
+    case 'logIn':
+      return state.set('user', action.user)
+    case 'logOut':
+      return state.set('user', undefined)
     default:
       return state
   }
 }
 
 function immutableSort (list, sortFn) {
-  return new List((list.toJS ? list.toJS() : list).sort(sortFn))
+  return fromJS((list.toJS ? list.toJS() : list).sort(sortFn))
 }
 
 function keySort (key, order) {
