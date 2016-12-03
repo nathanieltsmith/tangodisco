@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom'
 import RecordingEditor from './components/RecordingEditor'
 import SearchPage from './components/SearchPage'
 import SignUp from './components/SignUp'
+import LogIn from './components/LogIn'
 import LogOut from './components/LogOut'
 import store from './store/store'
 import { Provider } from 'react-redux'
@@ -30,6 +31,7 @@ ReactDOM.render((<Provider store={store}>
                   <Route path="search/:query" component={SearchPage} />
                   <Route path="user/:userId" component={PlaceHolder} />
                   <Route path="signup" component={SignUp} />
+                  <Route path="login" component={LogIn} />
                   <Route path="logout" component={LogOut} />
                   <Route path='log/:startDate/:endDate' component={PlaceHolder} />
               </Route>

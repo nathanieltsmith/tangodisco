@@ -4,6 +4,8 @@ import immutablediff from 'immutablediff'
 import EditRecording from './compositional/EditRecording'
 import { jsonRequest } from '../requests'
 import _ from 'lodash'
+import Authentication from './compositional/Authentication'
+import { browserHistory } from 'react-router'
 
 class RecordingEditor extends React.Component {
 
@@ -37,7 +39,10 @@ class RecordingEditor extends React.Component {
   }
 
   render() {
-    const { track, update } = this.props
+    const { track, update, user } = this.props
+    if (!user) {
+      browserHistory.push('/login')
+    }
     return (<div>
         {
     ['song', 'orchestra', 'genre', 'youTubeUrl', 'recorded']
@@ -88,4 +93,4 @@ class StringArrayInput extends React.Component {
 
 const StringTrackInput = EditRecording(StringInput)
 const StringArrayTrackInput = EditRecording(StringArrayInput)
-module.exports = EditRecording(RecordingEditor)
+module.exports = Authentication(EditRecording(RecordingEditor))
